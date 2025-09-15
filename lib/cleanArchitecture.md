@@ -1,14 +1,23 @@
 ## Getting Started
-1. Domain Layer (più interno, indipendente):
-    Non dipende da nulla.
-    Contiene Entities (modelli “puri”), Use Cases, e Repository contracts.
-    Qui c’è la logica di business vera.
+    1) DOMAIN LAYER (+ interno, indipendente da tutto, qua non c’è niente di Flutter, Firebase, o SQL)
+        ◦ Contiente ENTITY: oggetti puri con regole di business;
+        ◦ Contiene USE CASE: logica applicativa (ES. “pubblica un audio”, “segui un utente”);
+        ◦ Contiene REPOSITORY (astratto): interfacce che descrivono come ottente dati, senza implementarle.
 
-2. Data Layer
-    Implementa i contratti definiti nel domain.
-    Converte i dati da/verso API, DB, ecc.
-    Usa models e datasources.
+    2) DATA LAYER (Questo layer “comunica” con il mondo esterno):
+        ◦ Contiene l’implementazione concreta dei Repository;
+        ◦ Contiene Datasource: gestice API REST, Firebase, DB MYSQL, ecc;
+        ◦ Contiene MODEL/DTO: oggetti per scambiare dati con APU/DB;
+        ◦ Converte i Model → Entity (per il Domain).
 
-3. Presentation Layer
-    UI + Gestione stato (Bloc, Provider, Riverpod…).
-    Dipende dai use case del domain.
+    3) PRESENTATION LAYER (UI + Stato, questo è quello che l’utente vede):
+        ◦ Contiene Widget Flutter (View);
+        ◦ Contiene State Management (Bloc, Riverpod, Provider, ecc.);
+        ◦ Chiama Use Case del domani Layer per eseguire azioni;
+        ◦ Mostra i dati delle ENTITY.
+
+PUNTI DA RICORDARE:
+• Presentation → sa solo come mostrare dati e chiamare UseCase;
+• Domain → cuore dell’app: entità, regole, casi d’uso;
+• Data → implementa repository, parla con API/DB/Firebase;
+• Dipendenza invertita: Presentation e Domani non conoscono nulla di MySql o Firebase → solo interfacce.
